@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { User } = require("../db");
+const BadRequestError = require("../errors/badRequest");
 const { SECRET } = require("../utils/env");
 
 const authRouter = express.Router();
@@ -13,9 +14,7 @@ authRouter.post("/", async (req, res, next) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      const error = new Error("Missing field(s)");
-      error.statusCode = 400;
-      throw error;
+      throw new BadRequestError("Missing field(s)");
     }
 
     const user = await User.findOne({
@@ -24,16 +23,13 @@ authRouter.post("/", async (req, res, next) => {
       }
     });
 
-    const credentialsError = new Error("Incorrect credentials");
-    credentialsError.statusCode = 400;
-
     if (!user) {
-      throw credentialsError;
+      throw new BadRequestError("Incorrect credentials");
     }
 
     const correctPassword = await bcrypt.compare(password, user.passwordHash);
     if (!correctPassword) {
-      throw credentialsError;
+      throw new BadRequestError("Incorrect credentials");
     }
 
     const token = jwt.sign(user.toJSON(), SECRET);

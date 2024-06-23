@@ -3,7 +3,7 @@
 ## TODO
 
 - [x] User authentication
-- [ ] User management
+- [x] User management
 
 ## Required environment variables
 
