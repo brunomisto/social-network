@@ -1,8 +1,14 @@
 const { Sequelize } = require('sequelize');
+const { NODE_ENV } = require("./utils/env");
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "db.sqlite3"
+  storage: NODE_ENV === "TEST" ? "testdb.sqlite3" : "db.sqlite3",
 });
 
-module.exports = { sequelize };
+const User = require("./models/user")(sequelize);
+
+module.exports = {
+  sequelize,
+  User
+};
