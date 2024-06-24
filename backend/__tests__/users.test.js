@@ -119,4 +119,72 @@ describe("when authenticated", () => {
       .get(`/api/users/${user.id}`)
       .expect(404);
   });
+
+  describe("follow", () => {
+    let followee, followed;
+    
+    beforeAll(async () => {
+      let response;
+
+      response = await request(app)
+        .post("/api/users")
+        .send({
+          username: "foo",
+          name: "foo",
+          password: "12345"
+        });
+
+      followee = response.body;
+
+      response = await request(app)
+        .post("/api/auth")
+        .send({
+          username: "foo",
+          password: "12345"
+        });
+
+      token = response.body.token;
+
+      response = await request(app)
+        .post("/api/users")
+        .send({
+          username: "bar",
+          name: "bar",
+          password: "12345"
+        });
+
+      followed = response.body;
+    });
+
+    test("can follow another user once", async () => {
+      await request(app)
+        .post(`/api/users/${followed.id}/follow`)
+        .set("Authorization", `Bearer ${token}`)
+        .expect(204);
+  
+      await request(app)
+        .post(`/api/users/${followed.id}/follow`)
+        .set("Authorization", `Bearer ${token}`)
+        .expect(400);
+    });
+
+    test("cant follow self", async () => {
+      await request(app)
+        .post(`/api/users/${followee.id}/follow`)
+        .set("Authorization", `Bearer ${token}`)
+        .expect(403);
+    });
+
+    test("can unfollow user", async () => {
+      await request(app)
+        .delete(`/api/users/${followed.id}/unfollow`)
+        .set("Authorization", `Bearer ${token}`)
+        .expect(204);
+
+      await request(app)
+        .delete(`/api/users/${followed.id}/unfollow`)
+        .set("Authorization", `Bearer ${token}`)
+        .expect(404);
+    });
+  });
 });

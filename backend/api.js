@@ -8,6 +8,7 @@ apiRouter.use("/users", usersRouter);
 apiRouter.use("/auth", authRouter);
 
 apiRouter.use((err, req, res, next) => {
+  console.log(err);
   const statusCode = err.statusCode || 500;
   const message = err.message;
   return res.status(statusCode).json({

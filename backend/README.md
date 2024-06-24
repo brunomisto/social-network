@@ -4,6 +4,8 @@
 
 - [x] User authentication
 - [x] User management
+- [x] Implement follow system
+- [ ] Timeout tokens
 
 ## Required environment variables
 
