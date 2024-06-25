@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
 const UnauthorizedError = require("../errors/unauthorized");
 const { SECRET } = require("../utils/env");
+const { User } = require("../db");
 
-const authRequired = (req, res, next) => {
+const authRequired = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
@@ -13,7 +14,19 @@ const authRequired = (req, res, next) => {
     const token = authorization.replace(/^Bearer /, "");
     const authenticatedUser = jwt.verify(token, SECRET);
 
-    req.user = authenticatedUser;
+    // Ensure user exists and is equal to the jwt
+    const user = await User.findOne({
+      where: {
+        id: authenticatedUser.id,
+        createdAt: authenticatedUser.createdAt,
+      }
+    });
+
+    if (!user) {
+      throw new UnauthorizedError("Invalid JWT");
+    }
+
+    req.user = user;
 
     return next();
   } catch(error) {

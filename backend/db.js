@@ -9,21 +9,35 @@ const sequelize = new Sequelize({
 
 const User = require("./models/user")(sequelize);
 const Follow = require("./models/follow")(sequelize);
+const Post = require("./models/post")(sequelize);
 
 User.belongsToMany(User, {
   as: "follower",
   foreignKey: "FollowerUserId",
   through: Follow
 });
-
 User.belongsToMany(User, {
   as: "followed",
   foreignKey: "FollowedUserId",
   through: Follow
 });
 
+User.hasMany(Post, {
+  foreignKey: {
+    name: "OwnerUserId",
+    allowNull: false,
+  }
+});
+Post.belongsTo(User, {
+  foreignKey: {
+    name: "OwnerUserId",
+    allowNull: false
+  }
+});
+
 module.exports = {
   sequelize,
   User,
-  Follow
+  Follow,
+  Post
 };
