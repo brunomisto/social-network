@@ -11,7 +11,14 @@ const User = require("./models/user")(sequelize);
 const Follow = require("./models/follow")(sequelize);
 
 User.belongsToMany(User, {
-  as: "FollowedUser",
+  as: "follower",
+  foreignKey: "FollowerUserId",
+  through: Follow
+});
+
+User.belongsToMany(User, {
+  as: "followed",
+  foreignKey: "FollowedUserId",
   through: Follow
 });
 

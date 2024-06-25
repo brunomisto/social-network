@@ -158,31 +158,42 @@ describe("when authenticated", () => {
 
     test("can follow another user once", async () => {
       await request(app)
-        .post(`/api/users/${followed.id}/follow`)
+        .post(`/api/follows/${followed.id}`)
         .set("Authorization", `Bearer ${token}`)
         .expect(204);
   
       await request(app)
-        .post(`/api/users/${followed.id}/follow`)
+        .post(`/api/follows/${followed.id}`)
         .set("Authorization", `Bearer ${token}`)
         .expect(400);
     });
 
     test("cant follow self", async () => {
       await request(app)
-        .post(`/api/users/${followee.id}/follow`)
+        .post(`/api/follows/${followee.id}`)
         .set("Authorization", `Bearer ${token}`)
         .expect(403);
     });
 
+    test("can get user follows", async () => {
+      const response = await request(app)
+        .get(`/api/follows/${followed.id}`)
+        .expect(200);
+
+      expect(response.body).toHaveProperty("followers");
+      expect(response.body).toHaveProperty("following");
+      expect(response.body.followers).toHaveLength(1);
+      expect(response.body.following).toHaveLength(0);
+    });
+
     test("can unfollow user", async () => {
       await request(app)
-        .delete(`/api/users/${followed.id}/unfollow`)
+        .delete(`/api/follows/${followed.id}`)
         .set("Authorization", `Bearer ${token}`)
         .expect(204);
 
       await request(app)
-        .delete(`/api/users/${followed.id}/unfollow`)
+        .delete(`/api/follows/${followed.id}`)
         .set("Authorization", `Bearer ${token}`)
         .expect(404);
     });

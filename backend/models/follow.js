@@ -4,8 +4,20 @@ module.exports = (sequelize) => {
   class Follow extends Model {};
 
   Follow.init({
-    UserId: DataTypes.INTEGER,
-    FollowedUserId: DataTypes.INTEGER
+    FollowerUserId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Users",
+        key: "id"
+      }
+    },
+    FollowedUserId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Users",
+        key: "id"
+      }
+    }
   }, {
     sequelize,
   });

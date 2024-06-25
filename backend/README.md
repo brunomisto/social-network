@@ -6,6 +6,7 @@
 - [x] User management
 - [x] Implement follow system
 - [ ] Timeout tokens
+- [ ] Retrieve User follows
 
 ## Required environment variables
 
