@@ -5,7 +5,7 @@
 - [x] User authentication
 - [x] User management
 - [x] Implement follow system
-- [ ] Timeout tokens
+- [x] Timeout tokens
 - [ ] Filter Users by
   - [ ] Follows
   - [ ] Likes

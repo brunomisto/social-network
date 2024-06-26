@@ -32,7 +32,12 @@ authRouter.post("/", async (req, res, next) => {
       throw new BadRequestError("Incorrect credentials");
     }
 
-    const token = jwt.sign(user.toJSON(), SECRET);
+    const token = jwt.sign(
+      user.toJSON(), 
+      SECRET,
+      { expiresIn: 24 * 60 * 60 }
+    );
+
     return res.json({ token });
   } catch(error) {
     return next(error);
