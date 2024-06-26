@@ -7,7 +7,7 @@ const authRequired = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
-    if (!authorization.startsWith("Bearer ")) {
+    if (!authorization || !authorization.startsWith("Bearer ")) {
       throw new UnauthorizedError("Missing token");
     }
 
