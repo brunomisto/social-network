@@ -10,11 +10,11 @@
   - [ ] Follows
   - [ ] Likes
 - [ ] Filter Posts by
-  - [ ] User
-  - [ ] Likes
+  - [ ] User (post owner)
+  - [ ] Likes (like owner)
 - [ ] Test Follows and Likes
 
 ## Required environment variables
 
-- PORT: Port in which the server will run
-- SECRET: Secret key to use with jsonwebtoken
+- **PORT**: Port in which the server will run
+- **SECRET**: Secret key to use with jsonwebtoken

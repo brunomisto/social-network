@@ -1,9 +1,15 @@
 const { Sequelize } = require('sequelize');
 const { NODE_ENV } = require("./utils/env");
 
+const storages = {
+  TEST: "testdb.sqlite3",
+  DEVELOPMENT: "devdb.sqlite3",
+  PRODUCTION: "db.sqlite3"
+};
+
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: NODE_ENV === "TEST" ? "testdb.sqlite3" : "db.sqlite3",
+  storage: storages[NODE_ENV],
   // logging: false,
 });
 
