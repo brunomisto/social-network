@@ -6,7 +6,13 @@
 - [x] User management
 - [x] Implement follow system
 - [ ] Timeout tokens
-- [ ] Retrieve User follows
+- [ ] Filter Users by
+  - [ ] Follows
+  - [ ] Likes
+- [ ] Filter Posts by
+  - [ ] User
+  - [ ] Likes
+- [ ] Test Follows and Likes
 
 ## Required environment variables
 
