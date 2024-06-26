@@ -3,8 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "test": "NODE_ENV=TEST jest",
-    "dev": "NODE_ENV=DEVELOPMENT nodemon index.js"
+    "test": "NODE_ENV=TEST jest && rm testdb.sqlite3",
+    "dev": "NODE_ENV=DEVELOPMENT nodemon index.js",
+    "start": "NODE_ENV=PRODUCTION node index.js"
   },
   "license": "ISC",
   "devDependencies": {
